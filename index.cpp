@@ -8,7 +8,7 @@
 //     - [x]  is_empty()
 //     - [x]  at(index) - returns item at given index, blows up if index out of bounds
 //     - [x]  push(item)
-//     - [ ]  insert(index, item) - inserts item at index, shifts that index’s value and trailing elements to the right
+//     - [x]  insert(index, item) - inserts item at index, shifts that index’s value and trailing elements to the right
 //     - [ ]  prepend(item) - can use insert above at index 0
 //     - [ ]  pop() - remove from end, return value
 //     - [ ]  delete(index) - delete item at index, shifting all trailing elements left
@@ -29,17 +29,37 @@ class vectArr{
             if(size == 0) return true;
             else return false;
         };
-        int at(int* index){
+        int at(int index){
             // if (*index < 0 || *index > capacity) return 0;
-            return *(pointerArray + *index);
-        }
+            return *(pointerArray + index);
+        };
         void push(int item){
             if(size + 1 > capacity){
                 // resize();
-            } else
+            }
             *(pointerArray + size) = item;
             size++;
-        }
+        };
+        void insert(int index, int item){
+            if(size + 1 > capacity){
+                //resize
+            }
+            
+            int tempCurVal, tempPrevVal = *(pointerArray + index);
+            *(pointerArray + index) = item;
+            size++;
+            for(int i = index + 1; i < size; i++){
+                tempCurVal = *(pointerArray + i);
+                *(pointerArray + i) = tempPrevVal;
+                tempPrevVal = tempCurVal;
+            };
+        };
+        void all(){
+            for(int i = 0; i < size; i++){
+                std::cout<<*(pointerArray + i)<<' ';
+            };
+            std::cout<<std::endl;
+        };
     private:
         int * pointerArray = new (std::nothrow) int[capacity];
 
@@ -47,6 +67,13 @@ class vectArr{
 };
 
 int main(void){
-    vectArr home;
-    
+    vectArr arr1;
+    arr1.push(9);
+    arr1.push(1);
+    arr1.push(5);
+    arr1.push(3);
+    arr1.push(1);
+    arr1.insert(2, 6);
+    arr1.insert(0, 4);
+    arr1.all();
 }
