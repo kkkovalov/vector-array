@@ -14,9 +14,9 @@
 //     - [x]  deleteItem(index) - delete item at index, shifting all trailing elements left
 //     - [x]  remove(item) - looks for value and removes index holding it (even if in multiple places)
 //     - [x]  find(item) - looks for value and returns first index with that value, -1 if not found
-//     - [ ]  resize(new_capacity) // private function
-//         - when you reach capacity, resize to double the size
-//         - when popping an item, if size is 1/4 of capacity, resize to half
+//     - [x]  resize(new_capacity) // private function
+//     - [x] when you reach capacity, resize to double the size
+//     - [x] when popping an item, if size is 1/4 of capacity, resize to half
 
 #include <iostream>
 #include <new>
@@ -38,7 +38,7 @@ class vectArr{
 
         void push(int item){
             if(size + 1 > capacity){
-                resize();
+                resize(true);
             }
             *(pointerArray + size) = item;
             size++;
@@ -46,7 +46,7 @@ class vectArr{
 
         void insert(int index, int item){
             if(size + 1 > capacity){
-                resize();
+                resize(true);
             }
             
             int tempCurVal, tempPrevVal = *(pointerArray + index);
@@ -67,6 +67,7 @@ class vectArr{
             int deleteVal = *(pointerArray + size - 1);
             *(pointerArray + size - 1) = 0;
             size--;
+            if(size < (capacity / 4)) resize(false);
             return deleteVal;
         };
 
@@ -91,7 +92,7 @@ class vectArr{
         }
 
         void all(){
-            for(int i = 0; i < size; i++){
+            for(int i = 0; i < capacity; i++){
                 std::cout<<*(pointerArray + i)<<' ';
             };
             std::cout<<std::endl;
@@ -100,8 +101,9 @@ class vectArr{
     private:
         int * pointerArray = new (std::nothrow) int[capacity];
 
-        void resize(){
-            capacity*=2;
+        void resize(bool isBigger){
+            if(isBigger) capacity*=2;
+            else capacity/=2;
             int * tempPointer = new (std::nothrow) int[capacity];
             for(int i = 0; i < size; i++){
                 *(tempPointer + i) = *(pointerArray + i);
@@ -119,8 +121,8 @@ int main(void){
     arr1.push(4);
     arr1.push(1);
     arr1.push(6);
-    arr1.push(8);
     arr1.all();
+    arr1.push(8);
     arr1.push(9);
     arr1.all();
 }
