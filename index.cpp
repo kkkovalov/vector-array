@@ -24,7 +24,7 @@
 class vectArr{
     public:
         int size = 0;
-        int capacity = 16;
+        int capacity = 4;
 
         bool is_empty(void){
             if(size == 0) return true;
@@ -38,7 +38,7 @@ class vectArr{
 
         void push(int item){
             if(size + 1 > capacity){
-                // resize();
+                resize();
             }
             *(pointerArray + size) = item;
             size++;
@@ -46,7 +46,7 @@ class vectArr{
 
         void insert(int index, int item){
             if(size + 1 > capacity){
-                //resize
+                resize();
             }
             
             int tempCurVal, tempPrevVal = *(pointerArray + index);
@@ -108,6 +108,7 @@ class vectArr{
             }
             delete [] pointerArray;
             pointerArray = tempPointer;
+            std::cout<<"Resized pointer = "<<&pointerArray<<std::endl;
         };
 
 
@@ -115,19 +116,11 @@ class vectArr{
 
 int main(void){
     vectArr arr1;
-    arr1.push(9);
+    arr1.push(4);
     arr1.push(1);
-    arr1.push(5);
-    arr1.push(3);
-    arr1.push(1);
-    arr1.insert(2, 6);
-    arr1.insert(0, 4);
+    arr1.push(6);
+    arr1.push(8);
     arr1.all();
-    arr1.remove(1);
     arr1.push(9);
-    arr1.push(3);
     arr1.all();
-    
-    std::cout<<arr1.find(9)<<' '<<std::endl;
-    std::cout<<arr1.find(3)<<' '<<std::endl;
 }
